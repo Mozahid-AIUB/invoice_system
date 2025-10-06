@@ -1,0 +1,9 @@
+Django>=4.2
+djangorestframework>=3.14
+djangorestframework-simplejwt>=5.2
+drf-yasg>=1.21
+PyYAML
+django-cors-headers>=4.0
+python-decouple>=4.2
+whitenoise>=6.5
+dj-database-url>=1.0

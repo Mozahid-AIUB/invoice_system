@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Invoice Demo</title>
+</head>
+
+<body>
+    <h1>Invoice Demo (simple)</h1>
+    <p>Open devtools and update the token variable to your JWT access token.</p>
+    <script>
+        const token = '';
+        async function listInvoices() {
+            const r = await fetch('/api/invoices/', { headers: { 'Authorization': 'Bearer ' + token } });
+            const data = await r.json();
+            console.log(data);
+        }
+
+        async function createSample() {
+            const payload = {
+                reference: 'WEB-001', customer_name: 'Demo', items: [{ description: 'Demo', quantity: 1, unit_price: '9.99' }]
+            };
+            const r = await fetch('/api/invoices/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(payload) });
+            console.log(await r.json());
+        }
+
+        window.listInvoices = listInvoices; window.createSample = createSample;
+    </script>
+    <button onclick="createSample()">Create sample invoice</button>
+    <button onclick="listInvoices()">List invoices (console)</button>
+</body>
+
+</html>
