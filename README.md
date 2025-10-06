@@ -66,5 +66,24 @@ Vercel frontend quick steps
 2. Set build command (for Vite): `npm run build`, output directory: `dist`.
 3. Set environment variable pointing to your backend API URL.
 
+Frontend (local run)
+--------------------
+To run the frontend locally (requires Node.js >= 18):
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The dev server will open on http://localhost:5173 by default. The frontend expects the backend API at the same origin (it uses relative `/api/` calls). If your backend runs on a different host, update the `baseURL` in `frontend/src/api.ts`.
+
+Deploying frontend to Vercel
+---------------------------
+1. Create a Vercel account and import the frontend folder or repo.
+2. Build command: `npm run build` and Output Directory: `dist`.
+3. Set environment variable `VITE_API_URL` or update `frontend/src/api.ts` to point to your deployed backend.
+
+
 If you'd like, I can push this repo to your GitHub for you and set up Render + Vercel; I will need push access to the repository (or you can add me as a collaborator). Otherwise, run the git commands above and then follow Render/Vercel's web setup.
 
