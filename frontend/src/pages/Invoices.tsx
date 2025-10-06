@@ -11,7 +11,8 @@ export default function Invoices() {
     const load = async (p = 1) => {
         setLoading(true)
         try {
-            const r = await api.get(`/api/invoices/?page=${p}`)
+            const r = await api.get(`/invoices/?page=${p}`)
+
             setInvoices(r.data.results || r.data)
             setCount(r.data.count || (r.data.length || 0))
         } catch (err) {
