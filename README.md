@@ -1,89 +1,141 @@
-Invoice System
-=================
 
-Backend: Django + DRF
+# Invoice System — Open Source & Self-Hosting Guide
 
-Quick start
+This project is a full-stack Invoice System built with Django REST Framework (backend) and React + Vite (frontend). It is open source and ready for self-hosting, local development, and contribution.
 
-- Create and activate a virtualenv
-- Install requirements: pip install -r requirements.txt
-- Run migrations: python manage.py makemigrations && python manage.py migrate
-- Create superuser: python manage.py createsuperuser
-- Run server: python manage.py runserver
+---
 
-Auth
+## Features
+- Modern Django REST API (JWT auth, pagination, filtering)
+- React + Vite frontend (TypeScript, Tailwind, PDF export)
+- Docker & Docker Compose for easy deployment
+- Ready for cloud (Render, Railway, Vercel, etc.)
+- Open to contributions! See below for how to get started.
 
-Obtain JWT token:
+---
 
-POST /api/token/ with {"username":"...","password":"..."}
+## 1. Local Development (from scratch)
 
-APIs
+### Prerequisites
+- Python 3.11+
+- Node.js 18+
+- Git
 
-- /api/invoices/  (CRUD, POST to create invoice)
-- /api/invoices/{id}/pay/  (POST to mark as paid)
-- /api/transactions/ (list transactions)
-- Swagger UI: /swagger/
+### Quickstart (Windows/macOS/Linux)
 
-Notes
-
- - Invoice total is computed from items on create. A Sale transaction is created on invoice creation. A Payment transaction is created when paying an invoice.
- - Tests are provided under `invoices/tests.py` and `transactions/tests.py`.
-
-GitHub and Deployment
----------------------
-
-If you want to push this project to your GitHub repository (for example: https://github.com/Mozahid-AIUB/Django_shop_management), here are the commands to run locally:
+Clone the repo and enter the directory:
 
 ```bash
-git init
-git add .
-git commit -m "Initial invoice system with API, tests, and admin"
-git branch -M main
-git remote add origin https://github.com/Mozahid-AIUB/Django_shop_management.git
-git push -u origin main
+git clone https://github.com/YOUR_USERNAME/invoice_system.git
+cd invoice_system
 ```
 
-Recommended deployment:
-- Backend: Render (https://render.com) or Railway. Use the `Procfile` and set `SECRET_KEY`, `DATABASE_URL` and other env vars in the service settings.
-- Frontend: Vercel (if you build a React app) — connect the frontend repo and set the API URL in environment variables.
+#### Backend setup
+```bash
+# Create virtualenv (Windows)
+python -m venv venv
+venv\Scripts\activate
+# Or (macOS/Linux)
+python3 -m venv venv
+source venv/bin/activate
 
-Render backend quick steps
-1. Create a new Web Service on Render and connect your GitHub repo.
-2. For Environment, choose "Docker" or "Python" (select the Python environment). Build command: `pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput`.
-3. Start command: `gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT`.
-4. Add environment variables: `SECRET_KEY`, `DATABASE_URL`, `ALLOWED_HOSTS`.
+# Install dependencies
+pip install -r requirements.txt
 
-Production security notes
-- Set `DEBUG=False` in environment variables for production.
-- Use a long, random `SECRET_KEY` (at least 50 characters) and keep it secret.
-- Set `ALLOWED_HOSTS` to your service domain(s).
-- Enable `SECURE_SSL_REDIRECT=True`, `SESSION_COOKIE_SECURE=True`, and `CSRF_COOKIE_SECURE=True` when serving over HTTPS.
-- Consider enabling HSTS by setting `SECURE_HSTS_SECONDS` to a suitable value after you confirm HTTPS is working.
+# Run migrations
+python manage.py migrate
 
+# (Optional) Create admin user
+python manage.py createsuperuser
 
-Vercel frontend quick steps
-1. From Vercel dashboard, import your frontend repo (or same repo if mono-repo).
-2. Set build command (for Vite): `npm run build`, output directory: `dist`.
-3. Set environment variable pointing to your backend API URL.
+# Start backend
+python manage.py runserver
+# API docs: http://localhost:8000/swagger/
+```
 
-Frontend (local run)
---------------------
-To run the frontend locally (requires Node.js >= 18):
-
+#### Frontend setup
 ```bash
 cd frontend
 npm install
 npm run dev
+# App: http://localhost:5173
 ```
 
-The dev server will open on http://localhost:5173 by default. The frontend expects the backend API at the same origin (it uses relative `/api/` calls). If your backend runs on a different host, update the `baseURL` in `frontend/src/api.ts`.
+#### One-click local run (both servers)
+- Windows: double-click `run_local.bat`
+- macOS/Linux: `./run_local.sh`
 
-Deploying frontend to Vercel
----------------------------
-1. Create a Vercel account and import the frontend folder or repo.
-2. Build command: `npm run build` and Output Directory: `dist`.
-3. Set environment variable `VITE_API_URL` or update `frontend/src/api.ts` to point to your deployed backend.
+---
 
+## 2. Docker & Docker Compose
 
-If you'd like, I can push this repo to your GitHub for you and set up Render + Vercel; I will need push access to the repository (or you can add me as a collaborator). Otherwise, run the git commands above and then follow Render/Vercel's web setup.
+You can run the whole stack with Docker:
+
+```bash
+docker-compose up --build
+# Backend: http://localhost:8000
+# Frontend: http://localhost:5173
+```
+
+---
+
+## 3. Deployment (Cloud/Production)
+
+### Backend (Render, Railway, etc.)
+- Use the provided `Dockerfile` or deploy as a Python app.
+- Set env vars: `SECRET_KEY`, `DATABASE_URL`, `ALLOWED_HOSTS`, `DEBUG=False`.
+- Start command: `gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT`
+
+### Frontend (Vercel, Netlify, etc.)
+- Build command: `npm run build`
+- Output dir: `dist`
+- Set env var `VITE_API_URL` to your backend URL
+
+---
+
+## 4. API Overview
+
+- `POST /api/token/` — obtain JWT token
+- `GET /api/invoices/` — list invoices
+- `POST /api/invoices/` — create invoice
+- `POST /api/invoices/{id}/pay/` — mark invoice as paid
+- `GET /api/transactions/` — list transactions
+- Swagger docs: `/swagger/`
+
+---
+
+## 5. Contributing
+
+We welcome contributions! To get started:
+
+1. Fork this repo on GitHub
+2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/invoice_system.git`
+3. Create a new branch: `git checkout -b feature/your-feature`
+4. Make your changes (see `invoices/`, `frontend/src/pages/`)
+5. Add tests if needed (`invoices/tests.py`, `transactions/tests.py`)
+6. Commit and push: `git add . && git commit -m "Describe your change" && git push`
+7. Open a Pull Request on GitHub
+
+---
+
+## 6. Troubleshooting & FAQ
+
+- If `npm install` fails: check Node.js version (18+), delete `node_modules` and try again.
+- If backend fails: check Python version, activate venv, install requirements.
+- If ports are busy: change them in `run_local.sh`/`run_local.bat` and `frontend/package.json`.
+- For CORS/API issues: ensure `VITE_API_URL` matches backend URL.
+
+---
+
+## 7. Security & Production Notes
+
+- Set `DEBUG=False` and use a strong `SECRET_KEY` in production.
+- Set `ALLOWED_HOSTS` to your domain(s).
+- Use HTTPS and set secure cookie settings.
+
+---
+
+## 8. License
+
+This project is open source under the MIT License. Contributions welcome!
 
