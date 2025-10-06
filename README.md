@@ -13,6 +13,12 @@ This project is a full-stack Invoice System built with Django REST Framework (ba
 - Open to contributions! See below for how to get started.
 
 ---
+Invoice System
+
+A full-stack Invoice Management System built with Django REST Framework (backend) and React + Vite (frontend).
+
+Frontend live: https://your-frontend-url.onrender.com
+Backend live: https://invoice-system-cik9.onrender.com
 
 ## 1. Local Development (from scratch)
 
