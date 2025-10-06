@@ -12,6 +12,9 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     queryset = Invoice.objects.all().order_by('-created_at')
     serializer_class = InvoiceSerializer
     permission_classes = [IsAuthenticated]
+    filterset_fields = ['status', 'reference', 'customer_name']
+    search_fields = ['reference', 'customer_name']
+    ordering_fields = ['created_at', 'total']
 
     def perform_create(self, serializer):
         # creation handled in serializer (including sale transaction)

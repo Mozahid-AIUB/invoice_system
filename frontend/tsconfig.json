@@ -1,17 +1,23 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "useDefineForClassFields": true,
-    "lib": ["DOM", "ESNext"],
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowJs": true,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "strict": false
-  },
-  "include": ["src"]
+    "compilerOptions": {
+        "target": "ES2022",
+        "useDefineForClassFields": true,
+        "lib": [
+            "DOM",
+            "ESNext"
+        ],
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowJs": true,
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "react-jsx",
+        "strict": false
+    },
+    "include": [
+        "src",
+        "src/types/jspdf-autotable.d.ts"
+    ]
 }

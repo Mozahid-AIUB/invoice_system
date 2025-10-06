@@ -9,6 +9,9 @@ class TransactionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Transaction.objects.all().order_by('-created_at')
     serializer_class = TransactionSerializer
     permission_classes = [IsAuthenticated]
+    filterset_fields = ['type', 'invoice_reference']
+    search_fields = ['invoice_reference']
+    ordering_fields = ['created_at', 'amount']
 from django.shortcuts import render
 
 # Create your views here.

@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  backend:
+    build: .
+    environment:
+      - DEBUG=False
+      - SECRET_KEY=replace-me
+      - DATABASE_URL=sqlite:///db.sqlite3
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend

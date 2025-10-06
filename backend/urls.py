@@ -14,11 +14,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework import routers
 from invoices.views import InvoiceViewSet
 from transactions.views import TransactionViewSet
+from backend.root import root_redirect
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -43,11 +45,14 @@ router.register(r'invoices', InvoiceViewSet, basename='invoice')
 router.register(r'transactions', TransactionViewSet, basename='transaction')
 
 urlpatterns = [
+    path('', root_redirect),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('swagger(<format>.json|.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    re_path(r'^swagger(?P<format>\\.json|\\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    # Include Django's auth URLs so Swagger/session login redirects work
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
